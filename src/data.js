@@ -31,8 +31,8 @@ export const GRADING_SYSTEMS = {
 // ==========================================
 export const COLLEGES = [
   { id: 'PTU', label: 'Puducherry Technological University', type: 'complex' }, 
-  { id: 'WEC', label: 'Women\'s Engineering College', type: 'simple', regulation: 'R2020', deptList: 'AFFILIATED_DEPARTMENTS' }, 
-  { id: 'PKIET', label: 'PKIET (Karaikal)', type: 'simple', regulation: 'R2020', deptList: 'AFFILIATED_DEPARTMENTS' } 
+  { id: 'WEC', label: 'Women\'s Engineering College', type: 'simple', regulation: 'R2020', deptList: 'WEC_DEPARTMENTS' }, 
+  { id: 'PKIET', label: 'PKIET (Karaikal)', type: 'simple', regulation: 'R2020', deptList: 'PKIET_DEPARTMENTS' } 
 ];
 
 export const PTU_LEVELS = [
@@ -68,7 +68,7 @@ export const PTU_PG_COURSES = [
 // 4. DEPARTMENTS LISTS
 // ==========================================
 
-// 1. PTU UG (Strictly the 9 departments requested)
+// 1. PTU UG (Full List)
 export const UG_DEPARTMENTS = [
   { id: 'CSE', name: 'Computer Science & Eng.', color: 'bg-blue-100 text-blue-600' },
   { id: 'IT', name: 'Information Technology', color: 'bg-sky-100 text-sky-600' },
@@ -81,17 +81,23 @@ export const UG_DEPARTMENTS = [
   { id: 'MT', name: 'Mechatronics', color: 'bg-indigo-100 text-indigo-600' },
 ];
 
-// 2. WEC & PKIET (Specific List: No Mech, Civil, Chem, EIE, MT)
-export const AFFILIATED_DEPARTMENTS = [
+// 2. PKIET Departments (CSE, ECE, IT, Petro, BME, Agri)
+export const PKIET_DEPARTMENTS = [
   { id: 'CSE', name: 'Computer Science & Eng.', color: 'bg-blue-100 text-blue-600' },
-  { id: 'IT', name: 'Information Technology', color: 'bg-sky-100 text-sky-600' },
   { id: 'ECE', name: 'Electronics & Comm.', color: 'bg-green-100 text-green-600' },
-  { id: 'EEE', name: 'Electrical & Electronics', color: 'bg-yellow-100 text-yellow-600' },
-  { id: 'BME', name: 'Biomedical Engineering', color: 'bg-pink-100 text-pink-600' },
+  { id: 'IT', name: 'Information Technology', color: 'bg-sky-100 text-sky-600' },
   { id: 'PETRO', name: 'Petrochemical', color: 'bg-amber-100 text-amber-600' },
-  { id: 'ARCH', name: 'Architectural', color: 'bg-purple-100 text-purple-600' },
-  { id: 'AGRI', name: 'Agriculture', color: 'bg-emerald-100 text-emerald-600' },
-  { id: 'ISE', name: 'Information Science', color: 'bg-violet-100 text-violet-600' }
+  { id: 'BME', name: 'Biomedical Engineering', color: 'bg-pink-100 text-pink-600' },
+  { id: 'AGRI', name: 'Agriculture', color: 'bg-emerald-100 text-emerald-600' }
+];
+
+// 3. WEC Departments (CSE, ECE, ISE, EEE, Arch)
+export const WEC_DEPARTMENTS = [
+  { id: 'CSE', name: 'Computer Science & Eng.', color: 'bg-blue-100 text-blue-600' },
+  { id: 'ECE', name: 'Electronics & Comm.', color: 'bg-green-100 text-green-600' },
+  { id: 'ISE', name: 'Information Science', color: 'bg-violet-100 text-violet-600' },
+  { id: 'EEE', name: 'Electrical & Electronics', color: 'bg-yellow-100 text-yellow-600' },
+  { id: 'ARCH', name: 'Architectural Assistantship', color: 'bg-purple-100 text-purple-600' }
 ];
 
 export const MTECH_PARENTS = [
