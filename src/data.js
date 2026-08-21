@@ -44,17 +44,17 @@ export const PTU_LEVELS = [
 // 3. BATCHES / COURSES
 // ==========================================
 export const PTU_UG_BATCHES = [
+  { id: '2026', label: 'Batch 2026-30', regulation: 'NEP2024' },
   { id: '2025', label: 'Batch 2025-29', regulation: 'NEP2024' },
   { id: '2024', label: 'Batch 2024-28', regulation: 'NEP2024' },
-  { id: '2023', label: 'Batch 2023-27', regulation: 'R2020' },
-  { id: '2022', label: 'Batch 2022-26', regulation: 'R2020' }
+  { id: '2023', label: 'Batch 2023-27', regulation: 'R2020' }
 ];
 
 export const AFFILIATED_BATCHES = [
+  { id: '2026', label: 'Batch 2026-30', regulation: 'R2020' },
   { id: '2025', label: 'Batch 2025-29', regulation: 'R2020' },
   { id: '2024', label: 'Batch 2024-28', regulation: 'R2020' },
-  { id: '2023', label: 'Batch 2023-27', regulation: 'R2020' },
-  { id: '2022', label: 'Batch 2022-26', regulation: 'R2020' }
+  { id: '2023', label: 'Batch 2023-27', regulation: 'R2020' }
 ];
 
 export const PTU_PG_COURSES = [
