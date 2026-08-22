@@ -29,7 +29,7 @@ export default function StepLevel({ slideVariants, direction, setLevel, nextStep
                   <Library size={32} className="lg:w-10 lg:h-10" strokeWidth={3} />
                 )}
               </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold font-display uppercase tracking-tight text-brutal-black flex-1">{lvl.label}</h3>
+              <h3 className="text-base sm:text-xl lg:text-3xl font-bold font-display uppercase tracking-tight text-brutal-black flex-1 break-words min-w-0">{lvl.label}</h3>
             </button>
           ))}
         </div>

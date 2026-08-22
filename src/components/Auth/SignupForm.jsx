@@ -76,7 +76,7 @@ export default function SignupForm({ onSuccess }) {
         <input
           name="fullName" value={formData.fullName} onChange={handleChange}
           type="text" className="w-full p-2.5 border-4 border-brutal-black bg-white focus:outline-none focus:bg-brutal-yellow transition-colors font-bold shadow-brutal-sm text-sm"
-          placeholder="John Doe"
+          placeholder="Abhinav"
         />
       </div>
 

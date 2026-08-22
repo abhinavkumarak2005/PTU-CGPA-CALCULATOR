@@ -20,7 +20,7 @@ export default function StepGradeInput({
       variants={slideVariants} initial="enter" animate="center" exit="exit" custom={direction}
       className="absolute inset-0 flex flex-col h-full relative"
     >
-      <div className="px-4 lg:px-8 py-4 lg:py-6 border-b-4 border-brutal-black bg-brutal-yellow sticky top-0 z-20 flex justify-between items-center shadow-brutal-sm">
+      <div className="px-4 lg:px-8 py-3 lg:py-5 border-b-4 border-brutal-black bg-brutal-yellow sticky top-0 z-20 flex justify-between items-center shadow-brutal-sm">
         <div>
           <h2 className="text-xl lg:text-3xl font-display font-black text-brutal-black uppercase tracking-tighter">Semester {activeSemInput}</h2>
           <p className="text-brutal-black font-bold text-xs lg:text-sm uppercase tracking-widest mt-1">Manage & Grade Subjects</p>
@@ -34,7 +34,7 @@ export default function StepGradeInput({
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 lg:px-8 py-8 space-y-6 custom-scrollbar bg-brutal-white">
+      <div className="flex-1 overflow-y-auto px-4 lg:px-8 py-4 space-y-3 lg:space-y-4 custom-scrollbar bg-brutal-white">
         {subjects.length === 0 && (
           <div className="text-center p-12 text-brutal-black bg-brutal-yellow border-4 border-brutal-black shadow-brutal">
             <p className="font-display font-black text-2xl uppercase mb-2">No subjects found.</p>
@@ -43,7 +43,7 @@ export default function StepGradeInput({
         )}
 
         {subjects.map((sub, idx) => (
-          <div key={`${sub.code}-${idx}`} className="flex items-center gap-4 p-4 lg:p-6 bg-white border-4 border-brutal-black shadow-brutal hover:-translate-y-1 transition-transform group relative">
+          <div key={`${sub.code}-${idx}`} className="flex items-center gap-3 lg:gap-4 p-3 lg:p-4 bg-white border-4 border-brutal-black shadow-brutal hover:-translate-y-1 transition-transform group relative">
             <button
               onClick={() => handleDeleteSubject(idx)}
               className="absolute -top-3 -right-3 md:-top-auto md:-right-auto md:-left-4 lg:-left-6 md:top-1/2 md:-translate-y-1/2 w-10 h-10 bg-brutal-red text-white border-4 border-brutal-black flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-all shadow-brutal z-10 hover:scale-110"
@@ -51,14 +51,14 @@ export default function StepGradeInput({
               <Trash2 size={20} strokeWidth={3} />
             </button>
             <div className="flex-1 pl-2">
-              <p className="font-display font-bold uppercase tracking-tight text-brutal-black text-lg lg:text-xl mb-2">{sub.name}</p>
+              <p className="font-display font-bold uppercase tracking-tight text-brutal-black text-base lg:text-lg mb-1 leading-tight break-words pr-2">{sub.name}</p>
               <p className="text-xs font-bold text-white bg-brutal-black uppercase tracking-widest inline-block px-3 py-1 border-2 border-brutal-black">
                 {sub.code} • {sub.credits} CR
               </p>
             </div>
-            <div className="relative w-28 lg:w-36">
+            <div className="relative w-24 lg:w-32 shrink-0">
               <select
-                className="w-full bg-brutal-white border-4 border-brutal-black text-brutal-black text-lg lg:text-xl rounded-none focus:bg-brutal-blue focus:text-white block p-3 lg:p-4 font-black font-display text-center outline-none cursor-pointer transition-colors appearance-none shadow-brutal-sm"
+                className="w-full bg-brutal-white border-4 border-brutal-black text-brutal-black text-base lg:text-lg rounded-none focus:bg-brutal-blue focus:text-white block p-2 lg:p-3 font-black font-display text-center outline-none cursor-pointer transition-colors appearance-none shadow-brutal-sm"
                 value={gradeData[`${activeSemInput}_${sub.code}_${idx}`] || ""}
                 onChange={(e) => setGradeData({ ...gradeData, [`${activeSemInput}_${sub.code}_${idx}`]: e.target.value })}
               >
@@ -71,13 +71,13 @@ export default function StepGradeInput({
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="w-full py-6 border-4 border-dashed border-brutal-black text-brutal-black font-display font-black text-xl uppercase tracking-tight flex items-center justify-center gap-3 hover:bg-brutal-blue hover:text-white hover:border-solid transition-all"
+          className="w-full py-4 lg:py-5 border-4 border-dashed border-brutal-black text-brutal-black font-display font-black text-lg uppercase tracking-tight flex items-center justify-center gap-3 hover:bg-brutal-blue hover:text-white hover:border-solid transition-all"
         >
           <Plus size={28} strokeWidth={3} /> Add Subject
         </button>
       </div>
 
-      <div className="p-6 lg:p-8 border-t-4 border-brutal-black bg-brutal-white sticky bottom-0 z-20 flex gap-4">
+      <div className="p-4 lg:p-6 border-t-4 border-brutal-black bg-brutal-white sticky bottom-0 z-20 flex gap-4">
         {mode === 'cumulative' && activeSemInput > startSem && (
           <button
             onClick={() => setActiveSemInput(s => s - 1)}

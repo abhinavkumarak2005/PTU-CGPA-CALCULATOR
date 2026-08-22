@@ -31,8 +31,8 @@ export default function CreditsModal({ isOpen, onClose }) {
 
             {/* Content */}
             <div className="p-8">
-              <p className="font-bold text-xl mb-8 leading-relaxed max-w-xl">
-                This project is proudly built and maintained by <span className="bg-brutal-black text-white px-2 py-0.5 uppercase tracking-widest font-black">Abhinavkumar Ilango</span>.
+              <p className="font-bold text-lg sm:text-xl mb-8 leading-relaxed max-w-xl">
+                This project is proudly built and maintained by <span className="bg-brutal-black text-white px-2 py-1 uppercase tracking-wider font-black inline-block break-words max-w-full leading-snug mt-1 sm:mt-0">Abhinavkumar Ilango</span>.
               </p>
 
               <div className="flex flex-col gap-4">
@@ -45,7 +45,7 @@ export default function CreditsModal({ isOpen, onClose }) {
                   <div className="flex items-center gap-4 min-w-0 flex-1">
                     <div className="w-12 h-12 bg-brutal-blue border-2 border-brutal-black flex items-center justify-center text-white font-black text-lg shrink-0">AI</div>
                     <div className="min-w-0 flex-1 overflow-hidden py-1">
-                      <h4 className="font-display font-black text-sm sm:text-xl uppercase tracking-widest truncate w-full scale-y-125 origin-left pr-2">
+                      <h4 className="font-display font-black text-sm sm:text-xl uppercase tracking-wider sm:tracking-widest truncate w-full pr-2">
                         <span className="hidden sm:inline">I </span>ABHINAVKUMAR
                       </h4>
                       <p className="font-bold text-xs sm:text-sm text-slate-500 uppercase truncate">Lead Developer</p>
@@ -66,7 +66,7 @@ export default function CreditsModal({ isOpen, onClose }) {
                   <div className="flex items-center gap-4 min-w-0 flex-1">
                     <div className="w-12 h-12 bg-brutal-red border-2 border-brutal-black flex items-center justify-center text-white font-black text-lg shrink-0">VR</div>
                     <div className="min-w-0 flex-1 overflow-hidden py-1">
-                      <h4 className="font-display font-black text-sm sm:text-xl uppercase tracking-widest truncate w-full scale-y-125 origin-left pr-2">VIKNESH RS</h4>
+                      <h4 className="font-display font-black text-sm sm:text-xl uppercase tracking-wider sm:tracking-widest truncate w-full pr-2">VIKNESH RS</h4>
                       <p className="font-bold text-xs sm:text-sm text-slate-500 uppercase truncate">Supporting Developer</p>
                     </div>
                   </div>

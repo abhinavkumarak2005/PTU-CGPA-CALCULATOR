@@ -51,12 +51,12 @@ export default function StepDept({
                   isPG() ? nextStep(2) : nextStep();
                 }
               }}
-              className="brutal-card group flex items-center gap-4 p-4 lg:p-6 min-h-[100px] lg:min-h-[120px] w-full"
+              className="brutal-card group flex items-center gap-3 lg:gap-4 p-3 lg:p-6 min-h-[90px] lg:min-h-[120px] w-full"
             >
               <div className="w-14 h-14 lg:w-16 lg:h-16 bg-brutal-yellow border-4 border-brutal-black flex items-center justify-center text-brutal-black group-hover:scale-110 transition-transform shadow-brutal-sm shrink-0">
                 {getDeptIcon(d.id)}
               </div>
-              <span className="font-bold font-display uppercase tracking-tight text-lg text-brutal-black leading-tight text-left">
+              <span className="font-bold font-display uppercase tracking-tight text-base lg:text-lg text-brutal-black leading-tight text-left break-words min-w-0 flex-1">
                 {d.name}
               </span>
             </button>
