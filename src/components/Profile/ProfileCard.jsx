@@ -67,34 +67,20 @@ export default function ProfileCard({ user, profile, onProfileUpdate }) {
       <div className="absolute -top-4 -left-4 w-16 h-8 bg-brutal-red rotate-[-15deg] border-2 border-brutal-black z-10" />
       <div className="absolute -bottom-4 -right-4 w-16 h-8 bg-brutal-blue rotate-[-15deg] border-2 border-brutal-black z-10" />
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8 border-b-4 border-brutal-black pb-6 border-dashed">
-        <div className="flex items-center gap-6">
-          <div className="w-20 h-20 bg-brutal-yellow border-4 border-brutal-black flex items-center justify-center shadow-brutal-sm">
+      <div className="flex flex-col gap-6 mb-8 border-b-4 border-brutal-black pb-6 border-dashed">
+        <div className="flex items-start sm:items-center gap-6">
+          <div className="w-20 h-20 bg-brutal-yellow border-4 border-brutal-black flex items-center justify-center shadow-brutal-sm shrink-0">
             <User size={40} className="text-brutal-black" strokeWidth={3} />
           </div>
-          <div>
-            <h1 className="font-display font-black text-4xl uppercase tracking-tighter mb-1">{profile.name}</h1>
-            <p className="font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 border-2 border-brutal-black inline-block">
+          <div className="min-w-0 flex-1">
+            <h1 className="font-display font-black text-2xl sm:text-4xl uppercase tracking-tighter mb-2 break-words">
+              {profile.name}
+            </h1>
+            <p className="font-bold uppercase tracking-widest text-slate-500 bg-slate-100 px-3 py-1 border-2 border-brutal-black inline-block text-xs sm:text-sm break-words">
               {profile.register_no}
             </p>
           </div>
         </div>
-        {!isEditing && !isResettingPassword && (
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <button 
-              onClick={() => setIsEditing(true)}
-              className="bg-brutal-black text-white px-6 py-3 font-display font-black uppercase tracking-widest hover:bg-brutal-red transition-colors border-2 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:translate-x-1 hover:shadow-brutal"
-            >
-              Edit Profile
-            </button>
-            <button 
-              onClick={() => setIsResettingPassword(true)}
-              className="bg-white text-brutal-black px-6 py-3 font-display font-black uppercase tracking-widest hover:bg-brutal-yellow transition-colors border-2 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:translate-x-1 hover:shadow-brutal"
-            >
-              Reset Password
-            </button>
-          </div>
-        )}
       </div>
 
       {isEditing ? (
@@ -194,27 +180,44 @@ export default function ProfileCard({ user, profile, onProfileUpdate }) {
           </div>
         </form>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="flex items-center gap-4 p-5 bg-white border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all">
-            <Mail className="text-brutal-blue" size={28} strokeWidth={3} />
-            <div className="overflow-hidden">
-              <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Email</p>
-              <p className="text-sm font-bold truncate">{user?.email}</p>
+        <div className="flex flex-col gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="flex items-center gap-4 p-5 bg-white border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all overflow-hidden">
+              <Mail className="text-brutal-blue shrink-0" size={28} strokeWidth={3} />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Email</p>
+                <p className="text-sm font-bold truncate">{user?.email}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-5 bg-white border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all overflow-hidden">
+              <Building2 className="text-brutal-red shrink-0" size={28} strokeWidth={3} />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">College</p>
+                <p className="font-display font-black text-xl uppercase truncate">{profile.college}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-5 bg-white border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all overflow-hidden">
+              <GraduationCap className="text-brutal-yellow shrink-0" size={28} strokeWidth={3} />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Batch</p>
+                <p className="font-display font-black text-xl truncate">{profile.batch}</p>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 p-5 bg-white border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all">
-            <Building2 className="text-brutal-red" size={28} strokeWidth={3} />
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">College</p>
-              <p className="font-display font-black text-xl uppercase">{profile.college}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 p-5 bg-white border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:shadow-brutal transition-all">
-            <GraduationCap className="text-brutal-yellow" size={28} strokeWidth={3} />
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-1">Batch</p>
-              <p className="font-display font-black text-xl">{profile.batch}</p>
-            </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-end mt-4 pt-6 border-t-4 border-brutal-black border-dashed">
+            <button 
+              onClick={() => setIsEditing(true)}
+              className="bg-brutal-black text-white px-8 py-4 font-display font-black uppercase tracking-widest hover:bg-brutal-red transition-colors border-2 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:translate-x-1 hover:shadow-brutal w-full sm:w-auto"
+            >
+              Edit Profile
+            </button>
+            <button 
+              onClick={() => setIsResettingPassword(true)}
+              className="bg-brutal-yellow text-brutal-black px-8 py-4 font-display font-black uppercase tracking-widest hover:bg-white transition-colors border-4 border-brutal-black shadow-brutal-sm hover:-translate-y-1 hover:translate-x-1 hover:shadow-brutal w-full sm:w-auto"
+            >
+              Reset Password
+            </button>
           </div>
         </div>
       )}

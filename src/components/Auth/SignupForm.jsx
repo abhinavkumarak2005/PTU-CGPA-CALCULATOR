@@ -60,7 +60,7 @@ export default function SignupForm({ onSuccess }) {
       setError(signUpError.message);
     } else if (data?.session) {
       // If Supabase returns a session immediately (Confirm Email is OFF), bypass OTP screen
-      window.location.href = '/profile';
+      window.location.href = '/dashboard';
     } else {
       // If no session is returned, they need to verify their email via OTP
       onSuccess(formData.email);
@@ -154,7 +154,7 @@ export default function SignupForm({ onSuccess }) {
 
       <button
         type="submit" disabled={loading}
-        className="w-full py-3 bg-brutal-red text-white font-display font-black text-lg uppercase tracking-widest border-4 border-brutal-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-white hover:text-brutal-red hover:-translate-y-1 hover:translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2 mt-4"
+        className="w-full py-3 bg-brutal-red text-white font-display font-black text-base sm:text-lg uppercase tracking-wider sm:tracking-widest border-4 border-brutal-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-white hover:text-brutal-red hover:-translate-y-1 hover:translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2 mt-4"
       >
         {loading && <Loader2 size={20} className="animate-spin" />}
         Create Account &rarr;

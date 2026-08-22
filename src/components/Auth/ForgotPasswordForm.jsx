@@ -95,7 +95,7 @@ export default function ForgotPasswordForm({ onBack }) {
     } else {
       setSuccess('Password updated successfully! Logging you in...');
       setTimeout(() => {
-        window.location.href = '/profile';
+        window.location.href = '/dashboard';
       }, 1500);
     }
   };

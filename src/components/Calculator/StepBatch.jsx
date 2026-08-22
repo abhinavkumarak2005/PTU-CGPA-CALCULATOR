@@ -13,7 +13,7 @@ export default function StepBatch({ slideVariants, direction, level, getCurrentB
     >
       <div className="w-full max-w-4xl flex flex-col items-center justify-center min-h-min py-8">
         <div className="inline-block bg-brutal-black text-brutal-yellow font-bold uppercase tracking-widest px-4 py-2 border-4 border-brutal-black mb-6">Step {isPGLevel ? '2' : '3'}</div>
-        <h2 className="font-display font-black text-4xl lg:text-6xl text-brutal-black mb-12 text-center uppercase tracking-tighter shrink-0">
+        <h2 className="font-display font-black text-2xl sm:text-3xl lg:text-6xl text-brutal-black mb-6 lg:mb-12 text-center uppercase tracking-tighter shrink-0 w-full">
           {isPGLevel ? 'Select PG Course' : 'Select Batch'}
         </h2>
         <div className="grid gap-6 lg:gap-8 w-full grid-cols-1 md:grid-cols-2">
@@ -21,9 +21,9 @@ export default function StepBatch({ slideVariants, direction, level, getCurrentB
             <button
               key={b.id}
               onClick={() => { setBatchData(b); nextStep(); }}
-              className="brutal-card group w-full p-6 lg:p-8 text-left flex items-center gap-6 min-h-[140px]"
+              className="brutal-card group w-full p-4 lg:p-8 text-left flex items-center gap-4 lg:gap-6 min-h-[100px] lg:min-h-[140px]"
             >
-              <div className="w-16 h-16 bg-brutal-white border-4 border-brutal-black flex items-center justify-center text-brutal-black group-hover:bg-brutal-blue group-hover:text-white transition-all shadow-brutal shrink-0">
+              <div className="w-14 h-14 lg:w-16 lg:h-16 bg-brutal-white border-4 border-brutal-black flex items-center justify-center text-brutal-black group-hover:bg-brutal-blue group-hover:text-white transition-all shadow-brutal shrink-0">
                 <BookOpen size={32} strokeWidth={3} />
               </div>
               <div className="flex-1">

@@ -17,18 +17,27 @@ export default function OTPVerify({ email, onBack }) {
     return () => clearInterval(interval);
   }, [timer]);
 
-  const handleChange = (e, index) => {
-    const value = e.target.value;
-    if (/^[0-9]$/.test(value) || value === '') {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
-      setError('');
-
-      if (value !== '' && index < 5) {
-        inputRefs.current[index + 1].focus();
-      }
+  const submitOTP = async (token) => {
+    if (loading) return; // Prevent double submission
+    if (token.length < 6) {
+      setError('Please enter the 6-digit OTP.');
+      return;
     }
+    
+    setLoading(true);
+    const { error: otpError } = await auth.verifyOTP(email, token);
+    setLoading(false);
+
+    if (otpError) {
+      setError(otpError.message);
+    } else {
+      window.location.href = '/dashboard'; 
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    submitOTP(otp.join(''));
   };
 
   const handleKeyDown = (e, index) => {
@@ -37,31 +46,35 @@ export default function OTPVerify({ email, onBack }) {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = otp.join('');
-    if (token.length < 6) {
-      setError('Please enter the 6-digit OTP.');
-      return;
-    }
-    
-    setLoading(true);
-    
-    const { error: otpError } = await auth.verifyOTP(email, token);
-    
-    setLoading(false);
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    if (/^[0-9]$/.test(value) || value === '') {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+      setError('');
 
-    if (otpError) {
-      setError(otpError.message);
-    } else {
-      window.location.href = '/profile'; 
+      if (value !== '') {
+        if (index < 5) {
+          inputRefs.current[index + 1].focus();
+        } else if (index === 5 && newOtp.every(d => d !== '')) {
+          submitOTP(newOtp.join(''));
+        }
+      }
     }
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (timer === 0) {
-      setTimer(60);
-      // In a real app, you would call a resend OTP function here
+      setError('');
+      setLoading(true);
+      const { error: resendError } = await auth.resendOTP(email);
+      setLoading(false);
+      if (resendError) {
+        setError(resendError.message);
+      } else {
+        setTimer(60);
+      }
     }
   };
 
@@ -70,7 +83,7 @@ export default function OTPVerify({ email, onBack }) {
       <div className="text-center">
         <h2 className="font-display font-black text-3xl uppercase tracking-widest text-brutal-black">Verify your email</h2>
         <p className="text-brutal-black font-bold text-sm mt-3 uppercase tracking-wider">
-          We've sent a 6-digit verification code to<br />
+          Please check your email. We've sent a 6-digit verification code to<br />
           <span className="bg-brutal-yellow border-2 border-brutal-black px-2 inline-block mt-2">{email}</span>
         </p>
       </div>
@@ -78,7 +91,7 @@ export default function OTPVerify({ email, onBack }) {
       {error && <div className="bg-brutal-red text-white p-3 font-bold border-4 border-brutal-black shadow-brutal-sm uppercase tracking-widest text-sm text-center">{error}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="flex justify-center gap-2 sm:gap-4">
+        <div className="flex justify-center gap-1 sm:gap-4">
           {otp.map((digit, index) => (
             <input
               key={index}
@@ -88,7 +101,7 @@ export default function OTPVerify({ email, onBack }) {
               value={digit}
               onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-12 h-14 sm:w-14 sm:h-16 text-center font-display font-black text-2xl border-4 border-brutal-black bg-white focus:bg-brutal-yellow focus:outline-none transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+              className="w-10 h-12 sm:w-14 sm:h-16 text-center font-display font-black text-xl sm:text-2xl border-2 sm:border-4 border-brutal-black bg-white focus:bg-brutal-yellow focus:outline-none transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
             />
           ))}
         </div>
@@ -100,6 +113,7 @@ export default function OTPVerify({ email, onBack }) {
           {loading && <Loader2 size={24} className="animate-spin" />}
           Verify Email &rarr;
         </button>
+
       </form>
 
       <div className="text-center space-y-4 pt-4 border-t-4 border-brutal-black">

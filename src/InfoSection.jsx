@@ -118,15 +118,44 @@ export default function InfoSection() {
           <h2 className="text-xl lg:text-2xl font-bold text-slate-900">Frequently Asked Questions</h2>
         </div>
         <div className="space-y-3">
-          <FAQItem question="How to convert CGPA to Percentage?">
-            Formula: <strong>Percentage = (CGPA - 0.5) × 10</strong>. <br/>Example: If CGPA is 8.0, Percentage = 75%.
+          <FAQItem question="How is CGPA calculated in PTU?">
+            CGPA is calculated by dividing the sum of the credit points earned in all subjects by the total number of credits registered. You can use our tool to automatically multiply your grades by the official subject credits.
           </FAQItem>
-          <FAQItem question="Difference between R2020 and NEP 2024?">
-            R2020 uses S-E grading (10-5 pts). NEP 2024 uses O-P grading (10-4 pts) with new courses like Universal Human Values.
+          <FAQItem question="How to convert SGPA or CGPA to Percentage?">
+            The official formula used by PTU and most engineering colleges is: <strong>Percentage = (CGPA - 0.5) × 10</strong>. For example, an 8.0 CGPA equals 75%.
           </FAQItem>
-          <FAQItem question="Does 'W' (Withdrawal) affect CGPA?">
-            No. 'W' credits are <strong>excluded</strong> from the denominator. 'F' and 'Z' count as 0 points but are included in the denominator, lowering CGPA.
+          <FAQItem question="What is the difference between R2020 and NEP 2024 grading?">
+            R2020 uses the S-F grading scale (S=10, A=9, B=8, C=7, D=6, E=5, F=0). The new NEP 2024 system uses the O-F scale (O=10, A+=9, A=8, B+=7, B=6, C=5, P=4, F=0). Passing marks award fewer points in NEP 2024.
           </FAQItem>
+          <FAQItem question="Does 'W' (Withdrawal) affect my CGPA?">
+            No. 'W' credits are <strong>excluded</strong> from the denominator. However, 'F' (Fail) and 'Z' (Absent) count as 0 points and ARE included in the denominator, lowering your CGPA.
+          </FAQItem>
+          <FAQItem question="Can WEC and PKIET students use this calculator?">
+            Yes! PTU affiliated colleges like Women's Engineering College (WEC) and PKIET Karaikal follow the exact same syllabus and grading rules. Simply select your college on the first step.
+          </FAQItem>
+          <FAQItem question="How are Lateral Entry (LE) students calculated?">
+            Lateral Entry students join directly in the 3rd semester (2nd year). Their CGPA is calculated from the 3rd semester onwards, completely ignoring 1st year credits.
+          </FAQItem>
+          <FAQItem question="Does this support M.Tech, MBA, and MCA?">
+            Yes, the calculator supports all PTU PG programs. M.Tech uses the MTECH_R2024 regulation, while MBA/MCA use the PG_R2020 regulation.
+          </FAQItem>
+          <FAQItem question="How to improve CGPA in PTU?">
+            Focus heavily on 3-credit and 4-credit core subjects. Securing top grades ('O' or 'S') in these subjects impacts your overall average mathematically much more than securing top grades in 1-credit lab courses.
+          </FAQItem>
+        </div>
+      </div>
+
+      {/* Department Quick Links (SEO) */}
+      <div className="bg-white rounded-[2rem] p-6 lg:p-10 shadow-xl shadow-slate-200/60 border border-white">
+        <h3 className="text-xl font-bold text-slate-900 mb-4">Department Specific Calculators</h3>
+        <p className="text-sm text-slate-600 mb-6">Quickly access calculations specific to your branch of engineering:</p>
+        <div className="flex flex-wrap gap-3">
+          <span className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-bold border border-slate-200 cursor-default hover:bg-slate-200">PTU CSE CGPA</span>
+          <span className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-bold border border-slate-200 cursor-default hover:bg-slate-200">PTU IT CGPA</span>
+          <span className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-bold border border-slate-200 cursor-default hover:bg-slate-200">PTU ECE CGPA</span>
+          <span className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-bold border border-slate-200 cursor-default hover:bg-slate-200">PTU EEE & EIE CGPA</span>
+          <span className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-bold border border-slate-200 cursor-default hover:bg-slate-200">PTU Mechanical CGPA</span>
+          <span className="px-4 py-2 bg-slate-100 text-slate-700 rounded-full text-sm font-bold border border-slate-200 cursor-default hover:bg-slate-200">PTU Civil CGPA</span>
         </div>
       </div>
 

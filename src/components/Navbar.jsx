@@ -1,7 +1,6 @@
-// src/components/Navbar.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, User, LogIn, Menu, X } from 'lucide-react';
+import { GraduationCap, User, LogIn, Menu, X, Coffee } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import CreditsModal from './UI/CreditsModal';
 import { auth } from '../services/auth';
@@ -13,41 +12,43 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="w-full flex justify-center fixed top-6 z-[60] px-4 pointer-events-none">
+      <nav className="fixed top-6 left-0 right-0 z-[60] px-4 pointer-events-none flex justify-center">
         <div className="w-full max-w-6xl bg-brutal-white border-4 border-brutal-black shadow-brutal pointer-events-auto px-6 h-16 flex items-center justify-between">
-          
+
           {/* Logo */}
           <Link to={isLoggedIn ? "/dashboard" : "/"} className="flex items-center gap-3 outline-none group hover:-translate-y-1 transition-transform">
             <div className="w-10 h-10 bg-brutal-red border-2 border-brutal-black flex items-center justify-center text-white">
               <GraduationCap size={24} strokeWidth={3} />
             </div>
-            <span className="font-display font-black text-xl tracking-tighter uppercase">PTU CGPA*</span>
+            <span className="font-display font-black text-xl tracking-tighter uppercase">PTU CGPA</span>
           </Link>
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="/blog"
-              className="font-bold uppercase tracking-wider text-sm hover:bg-brutal-yellow px-4 py-2 border-2 border-transparent hover:border-brutal-black transition-all"
-            >
-              Blog
-            </a>
+            {!isLoggedIn && (
+              <Link
+                to="/blog"
+                className="font-bold uppercase tracking-wider text-sm hover:bg-brutal-yellow px-4 py-2 border-2 border-transparent hover:border-brutal-black transition-all"
+              >
+                Blog
+              </Link>
+            )}
             <button
               onClick={() => setShowCredits(true)}
               className="font-bold uppercase tracking-wider text-sm hover:bg-brutal-yellow px-4 py-2 border-2 border-transparent hover:border-brutal-black transition-all"
             >
               Credits
             </button>
-            <a 
-              href="https://buymeacoffee.com/abhinavkumarilango" 
-              target="_blank" 
+            <a
+              href="https://buymeacoffee.com/abhinavkumarilango"
+              target="_blank"
               rel="noopener noreferrer"
               className="hover:-translate-y-1 hover:shadow-brutal-sm transition-all"
             >
-              <img 
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" 
-                alt="Buy Me A Coffee" 
-                className="h-9 border-2 border-brutal-black object-contain bg-brutal-yellow" 
+              <img
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                alt="Buy Me A Coffee"
+                className="h-9 border-2 border-brutal-black object-contain bg-brutal-yellow"
               />
             </a>
 
@@ -57,7 +58,7 @@ export default function Navbar() {
                   to="/calculator"
                   className="font-bold uppercase tracking-wider text-sm hover:bg-brutal-yellow px-4 py-2 border-2 border-transparent hover:border-brutal-black transition-all"
                 >
-                  Calci
+                  Calc
                 </Link>
                 <Link
                   to="/profile"
@@ -84,7 +85,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Hamburger */}
-          <button 
+          <button
             className="md:hidden flex flex-col justify-center items-center w-10 h-10 border-2 border-brutal-black bg-brutal-yellow relative z-50"
             onClick={() => setMenuOpen(!menuOpen)}
           >
@@ -97,6 +98,9 @@ export default function Navbar() {
       {menuOpen && (
         <div className="fixed inset-0 bg-brutal-blue z-[55] flex flex-col items-center justify-center gap-8 border-x-4 border-brutal-black">
           <Link to="/" onClick={() => setMenuOpen(false)} className="font-display font-black text-5xl text-white hover:text-brutal-yellow transition-colors uppercase">Home</Link>
+          {!isLoggedIn && (
+            <Link to="/blog" onClick={() => setMenuOpen(false)} className="font-display font-black text-5xl text-white hover:text-brutal-yellow transition-colors uppercase">Blog</Link>
+          )}
           <button onClick={() => { setShowCredits(true); setMenuOpen(false); }} className="font-display font-black text-5xl text-white hover:text-brutal-yellow transition-colors uppercase">Credits</button>
           {isLoggedIn ? (
             <>
@@ -104,12 +108,23 @@ export default function Navbar() {
               <button onClick={async () => { await auth.logOut(); setMenuOpen(false); }} className="font-display font-black text-5xl text-white hover:text-brutal-yellow transition-colors uppercase">Logout</button>
             </>
           ) : (
-             <Link to="/auth" onClick={() => setMenuOpen(false)} className="font-display font-black text-5xl text-white hover:text-brutal-yellow transition-colors uppercase">Login</Link>
+            <Link to="/auth" onClick={() => setMenuOpen(false)} className="font-display font-black text-5xl text-white hover:text-brutal-yellow transition-colors uppercase">Login</Link>
           )}
         </div>
       )}
-      
+
       <CreditsModal isOpen={showCredits} onClose={() => setShowCredits(false)} />
+
+      {/* Floating Mobile BMC Button */}
+      <a 
+        href="https://buymeacoffee.com/abhinavkumarilango" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="md:hidden fixed bottom-6 right-6 z-[100] w-14 h-14 bg-brutal-yellow border-4 border-brutal-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-full flex items-center justify-center hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all animate-bounce"
+        title="Buy me a coffee"
+      >
+        <Coffee size={24} strokeWidth={3} className="text-brutal-black" />
+      </a>
     </>
   );
 }

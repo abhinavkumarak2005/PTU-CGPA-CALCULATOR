@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Trash2, Calculator, Plus, Loader2, ArrowRight, X } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
+import { toPng } from 'html-to-image';
+import { Trash2, Calculator, Plus, Loader2, ArrowRight, X, Download } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { resultsApi } from '../../services/results';
 import { SYLLABUS, GRADING_SYSTEMS } from '../../data';
@@ -10,6 +11,8 @@ export default function SavedResults({ userId }) {
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [downloadingItem, setDownloadingItem] = useState(null);
+  const downloadRef = React.useRef(null);
   
   const navigate = useNavigate();
 
@@ -29,6 +32,33 @@ export default function SavedResults({ userId }) {
     await resultsApi.deleteResult(id);
     setResults(results.filter(r => r.id !== id));
     setDeletingId(null);
+  };
+
+  const triggerDownload = async (item) => {
+    setDownloadingItem(item);
+    setTimeout(async () => {
+      if (!downloadRef.current) return;
+      try {
+        const watermark = document.getElementById('cgpa-watermark-saved');
+        if (watermark) watermark.style.display = 'block';
+
+        const dataUrl = await toPng(downloadRef.current, { 
+          backgroundColor: '#FFD500', 
+          pixelRatio: 3, 
+          style: { margin: '0' }
+        });
+        
+        if (watermark) watermark.style.display = 'none';
+
+        const link = document.createElement('a');
+        link.download = `PTU_${item.type}_${item.batch || 'result'}.png`;
+        link.href = dataUrl;
+        link.click();
+      } catch (err) {
+        console.error("Failed to capture image", err);
+      }
+      setDownloadingItem(null);
+    }, 150);
   };
 
   const calculateTotalCGPA = () => {
@@ -68,11 +98,12 @@ export default function SavedResults({ userId }) {
   const baseSem = isLateral ? 3 : 1;
   
   let firstMissing = null;
+  let missingBefore = [];
   if (results.length > 0) {
     for (let i = baseSem; i <= maxSavedSem; i++) {
       if (!savedSemesters.includes(i)) {
-        firstMissing = i;
-        break;
+        if (!firstMissing) firstMissing = i;
+        missingBefore.push(i);
       }
     }
   }
@@ -120,7 +151,14 @@ export default function SavedResults({ userId }) {
             </div>
           </div>
           
-          <div className="z-10 w-full sm:w-auto">
+          <div className="z-10 w-full sm:w-auto flex flex-col sm:flex-row gap-4">
+            <button 
+              onClick={() => triggerDownload({ type: 'CGPA', score: overallCGPA, college: results[0]?.college || 'PTU', dept: results[0]?.dept || 'CSE', batch: results[0]?.batch || '2024', sem: 'Cumulative' })}
+              className="w-full sm:w-auto bg-brutal-white text-brutal-black border-4 border-brutal-black shadow-brutal-sm px-6 py-5 font-bold uppercase tracking-widest hover:-translate-y-1 hover:translate-x-1 hover:shadow-brutal transition-all flex items-center justify-center gap-3"
+              title="Download CGPA Image"
+            >
+              {downloadingItem?.type === 'CGPA' ? <Loader2 className="animate-spin" size={24} /> : <Download size={24} strokeWidth={3} />}
+            </button>
             {maxSavedSem < 8 ? (
               <button 
                 onClick={() => setShowPrompt(true)}
@@ -168,7 +206,7 @@ export default function SavedResults({ userId }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {results.map(res => (
             <div key={res.id} className="bg-white border-4 border-brutal-black shadow-brutal p-6 flex flex-col hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-16 h-16 bg-brutal-yellow border-l-4 border-b-4 border-brutal-black flex items-center justify-center translate-x-16 group-hover:translate-x-0 transition-transform z-10">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-brutal-yellow border-l-4 border-b-4 border-brutal-black flex items-center justify-center translate-x-32 group-hover:translate-x-0 transition-transform z-20">
                 <button 
                   onClick={() => handleDelete(res.id)}
                   disabled={deletingId === res.id}
@@ -176,6 +214,17 @@ export default function SavedResults({ userId }) {
                   title="Delete result"
                 >
                   {deletingId === res.id ? <Loader2 size={24} className="animate-spin" /> : <Trash2 size={24} strokeWidth={3} />}
+                </button>
+              </div>
+
+              <div className="absolute top-0 right-16 w-16 h-16 bg-white border-l-4 border-b-4 border-brutal-black flex items-center justify-center translate-x-32 group-hover:translate-x-0 transition-transform z-10 delay-75">
+                <button 
+                  onClick={() => triggerDownload({ type: 'SGPA', score: Number(res.sgpa).toFixed(2), college: res.college, dept: res.dept, batch: res.batch || '2024', sem: `Sem ${res.semester}` })}
+                  disabled={downloadingItem !== null}
+                  className="text-brutal-black hover:text-brutal-blue transition-colors"
+                  title="Download Image"
+                >
+                  {downloadingItem?.sem === `Sem ${res.semester}` ? <Loader2 size={24} className="animate-spin" /> : <Download size={24} strokeWidth={3} />}
                 </button>
               </div>
 
@@ -207,17 +256,22 @@ export default function SavedResults({ userId }) {
       <AnimatePresence>
         {showPrompt && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-brutal-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 50 }} className="bg-brutal-white border-4 border-brutal-black p-8 w-full max-w-md shadow-brutal">
+            <motion.div initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 50 }} className="bg-brutal-white border-4 border-brutal-black p-6 md:p-8 w-full max-w-md shadow-brutal">
               <div className="flex justify-between items-center mb-8 border-b-4 border-brutal-black pb-4">
                 <h3 className="font-display font-black text-2xl uppercase tracking-tighter text-brutal-black">Calculate Next</h3>
                 <button onClick={() => setShowPrompt(false)} className="p-1 border-4 border-transparent hover:border-brutal-black hover:bg-brutal-black hover:text-white transition-colors"><X size={24} strokeWidth={3} /></button>
               </div>
               
               <div className="space-y-6">
-                {firstMissing && (
+                {missingBefore.length > 0 && (
                   <div className="bg-brutal-yellow border-4 border-brutal-black p-4 text-center">
-                    <p className="font-bold uppercase tracking-widest text-brutal-black mb-1 text-sm">Missing Semester</p>
-                    <p className="font-black text-lg">Semester {firstMissing} is missing! We will start from Semester {firstMissing}.</p>
+                    <p className="font-bold uppercase tracking-widest text-brutal-black mb-1 text-sm">Missing {missingBefore.length > 1 ? 'Semesters' : 'Semester'}</p>
+                    <p className="font-black text-lg">
+                      {missingBefore.length === 1 
+                        ? `Semester ${missingBefore[0]} is missing!` 
+                        : `Semesters ${missingBefore.join(', ')} are missing before Semester ${maxSavedSem}.`
+                      } We will start from Semester {firstMissing}.
+                    </p>
                   </div>
                 )}
                 
@@ -247,6 +301,35 @@ export default function SavedResults({ userId }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* HIDDEN RESULT CARD FOR DOWNLOADING */}
+      <div style={{ position: 'fixed', left: '-9999px', top: '-9999px' }}>
+        {downloadingItem && (
+          <div ref={downloadRef} className="p-6 md:p-10 flex justify-center w-[500px]">
+            <div className="relative bg-brutal-white border-4 border-brutal-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 md:p-12 w-full flex flex-col items-center">
+              <div className="absolute -top-3 -left-3 w-12 h-6 bg-brutal-red rotate-[-45deg] border-2 border-brutal-black z-10" />
+              <div className="absolute -bottom-3 -right-3 w-12 h-6 bg-brutal-blue rotate-[-45deg] border-2 border-brutal-black z-10" />
+              <div className="uppercase font-bold tracking-widest text-slate-500 mb-2 border-b-2 border-brutal-black pb-1 text-center text-sm">
+                {downloadingItem.college || 'College'} • {downloadingItem.dept || 'Department'}
+              </div>
+              <div className="text-7xl font-display font-black text-brutal-black mt-4 mb-8 text-center leading-none">
+                {downloadingItem.score}
+              </div>
+              <div className="bg-brutal-black text-white px-6 py-2 uppercase font-bold tracking-widest border-2 border-transparent text-base mb-2">
+                FINAL {downloadingItem.type}
+              </div>
+              <div className="mt-8 pt-4 border-t-4 border-brutal-black border-dashed w-full flex justify-between text-sm font-bold uppercase">
+                <span>Batch: {downloadingItem.batch ? `${downloadingItem.batch}-${(parseInt(downloadingItem.batch) + 4).toString().slice(-2)}` : ''}</span>
+                <span>{downloadingItem.sem}</span>
+              </div>
+              <div id="cgpa-watermark-saved" style={{ display: 'none' }} className="mt-6 text-[10px] font-bold text-slate-500 uppercase tracking-widest opacity-60 text-center w-full">
+                Calculated with PTU CGPA
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

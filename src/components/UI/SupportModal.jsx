@@ -21,7 +21,7 @@ export default function SupportModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-lg bg-brutal-white border-8 border-brutal-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8">
+      <div className="relative w-full max-w-lg bg-brutal-white border-4 sm:border-8 border-brutal-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-5 sm:p-8">
         
         {/* Close Button */}
         <button 
@@ -33,15 +33,15 @@ export default function SupportModal() {
         
         {/* Content */}
         <div className="flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-brutal-red border-4 border-brutal-black flex items-center justify-center mb-6 transform -rotate-6">
-            <Heart size={32} className="text-white fill-current" strokeWidth={3} />
+          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-brutal-red border-4 border-brutal-black flex items-center justify-center mb-4 sm:mb-6 transform -rotate-6">
+            <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-current" strokeWidth={3} />
           </div>
           
-          <h2 className="font-display font-black text-3xl uppercase tracking-widest mb-4">
+          <h2 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-widest mb-2 sm:mb-4">
             Support The Developer
           </h2>
           
-          <p className="font-bold text-lg mb-8 max-w-sm">
+          <p className="font-bold text-sm sm:text-lg mb-6 sm:mb-8 max-w-sm">
             Help keep this site live! Your support pays for domain costs, hosting, and coffee for the developer.
           </p>
           
@@ -50,9 +50,9 @@ export default function SupportModal() {
             target="_blank" 
             rel="noopener noreferrer"
             onClick={() => setIsOpen(false)}
-            className="w-full bg-brutal-blue text-white py-4 px-6 border-4 border-brutal-black font-display font-black text-xl uppercase tracking-widest hover:bg-white hover:text-brutal-blue hover:-translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3"
+            className="w-full bg-brutal-blue text-white py-3 sm:py-4 px-4 sm:px-6 border-4 border-brutal-black font-display font-black text-base sm:text-xl uppercase tracking-widest hover:bg-white hover:text-brutal-blue hover:-translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2 sm:gap-3"
           >
-            Donate Now <Heart size={20} className="fill-current" />
+            Support Now <Heart size={20} className="fill-current" />
           </a>
           
           <button 

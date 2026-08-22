@@ -29,7 +29,7 @@ export default function LoginForm({ onForgotPassword }) {
     if (loginError) {
       setError(loginError.message);
     } else {
-      window.location.href = '/profile';
+      window.location.href = '/dashboard';
     }
   };
 

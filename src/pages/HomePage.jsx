@@ -59,7 +59,7 @@ export default function HomePage() {
             </div>
 
             {/* Main Typography */}
-            <h1 className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-none text-white flex flex-col items-center justify-center tracking-tighter w-full max-w-4xl mx-auto space-y-1 relative z-10">
+            <h1 className="font-display font-black text-3xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-none text-white flex flex-col items-center justify-center tracking-tighter w-full max-w-4xl mx-auto space-y-1 relative z-10">
               <span className="w-full text-center">CALCULATE</span>
               <span className="w-full text-center">YOUR</span>
               <span className="bg-brutal-yellow text-brutal-black border-4 sm:border-8 border-brutal-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] px-4 py-1 my-2 transform -rotate-2 w-auto inline-block">

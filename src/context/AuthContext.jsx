@@ -5,6 +5,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
+import { AlertTriangle, LogIn } from 'lucide-react';
 
 const AuthContext = createContext(null);
 
@@ -16,6 +17,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   const loadProfile = async (userId) => {
     if (!isSupabaseConfigured) return;
@@ -39,10 +41,12 @@ export function AuthProvider({ children }) {
     }
 
     // Get current session on first mount
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       const u = session?.user ?? null;
       setUser(u);
-      if (u) loadProfile(u.id);
+      if (u) {
+        await loadProfile(u.id);
+      }
       setLoading(false);
     }).catch(() => {
       setLoading(false);
@@ -51,6 +55,10 @@ export function AuthProvider({ children }) {
     // Listen to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
+        if (_event === 'TOKEN_REFRESH_FAILED' || (_event === 'SIGNED_OUT' && user)) {
+          setSessionExpired(true);
+        }
+
         const u = session?.user ?? null;
         setUser(u);
         if (u) {
@@ -76,6 +84,28 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={value}>
       {children}
+      
+      {/* Session Expired Global Modal */}
+      {sessionExpired && (
+        <div className="fixed inset-0 bg-brutal-black/90 z-[9999] flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-brutal-white w-full max-w-sm border-4 border-brutal-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 text-center flex flex-col items-center">
+            <div className="w-16 h-16 bg-brutal-yellow border-4 border-brutal-black flex items-center justify-center mb-6 shadow-brutal-sm">
+              <AlertTriangle size={32} className="text-brutal-red" strokeWidth={3} />
+            </div>
+            <h2 className="font-display font-black text-2xl uppercase tracking-tighter mb-2 text-brutal-black">Session Expired</h2>
+            <p className="font-bold text-sm text-slate-600 mb-8 max-w-[250px]">Your session has expired or is invalid. Please log in again to continue.</p>
+            <button 
+              onClick={() => {
+                setSessionExpired(false);
+                window.location.href = '/auth';
+              }} 
+              className="w-full bg-brutal-blue text-white border-4 border-brutal-black py-4 font-display font-black text-xl uppercase tracking-widest hover:bg-brutal-red hover:translate-x-1 hover:-translate-y-1 hover:shadow-brutal transition-all flex items-center justify-center gap-2"
+            >
+              <LogIn size={24} strokeWidth={3} /> Log In
+            </button>
+          </div>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 }

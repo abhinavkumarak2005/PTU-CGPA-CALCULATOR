@@ -46,7 +46,7 @@ export default function StepGradeInput({
           <div key={`${sub.code}-${idx}`} className="flex items-center gap-4 p-4 lg:p-6 bg-white border-4 border-brutal-black shadow-brutal hover:-translate-y-1 transition-transform group relative">
             <button
               onClick={() => handleDeleteSubject(idx)}
-              className="absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 w-10 h-10 bg-brutal-red text-white border-4 border-brutal-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-brutal z-10 hover:scale-110"
+              className="absolute -top-3 -right-3 md:-top-auto md:-right-auto md:-left-4 lg:-left-6 md:top-1/2 md:-translate-y-1/2 w-10 h-10 bg-brutal-red text-white border-4 border-brutal-black flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-all shadow-brutal z-10 hover:scale-110"
             >
               <Trash2 size={20} strokeWidth={3} />
             </button>
@@ -124,7 +124,7 @@ export default function StepGradeInput({
                     onChange={e => setNewSubject({ ...newSubject, name: e.target.value })}
                   />
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1">
                     <label className="text-sm font-black text-brutal-black uppercase tracking-widest block mb-2">Code (Opt)</label>
                     <input
@@ -135,7 +135,7 @@ export default function StepGradeInput({
                       onChange={e => setNewSubject({ ...newSubject, code: e.target.value })}
                     />
                   </div>
-                  <div className="w-1/3">
+                  <div className="w-full sm:w-1/3">
                     <label className="text-sm font-black text-brutal-black uppercase tracking-widest block mb-2">Credits</label>
                     <input
                       type="number"

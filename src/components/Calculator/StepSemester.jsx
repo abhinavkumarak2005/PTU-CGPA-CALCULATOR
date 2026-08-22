@@ -13,14 +13,14 @@ export default function StepSemester({
   return (
     <motion.div
       variants={slideVariants} initial="enter" animate="center" exit="exit" custom={direction}
-      className="absolute inset-0 p-4 lg:p-12 flex flex-col items-center justify-center overflow-hidden"
+      className="absolute inset-0 p-4 lg:p-12 flex flex-col items-center justify-center overflow-y-auto custom-scrollbar"
     >
       <div className="w-full max-w-4xl flex flex-col items-center justify-center">
         <div className="inline-block bg-brutal-black text-brutal-yellow font-bold uppercase tracking-widest px-4 py-2 border-4 border-brutal-black mb-6">Step 7</div>
-        <h2 className="font-display font-black text-4xl lg:text-6xl text-brutal-black mb-12 text-center uppercase tracking-tighter shrink-0">
-          Target Semester
+        <h2 className="font-display font-black text-2xl sm:text-3xl lg:text-6xl text-brutal-black mb-6 lg:mb-12 text-center uppercase tracking-tighter shrink-0 w-full">
+          {mode === 'cumulative' ? 'Calculate Upto' : 'Target Semester'}
         </h2>
-        <div className="grid gap-4 lg:gap-8 w-full grid-cols-2 sm:grid-cols-4">
+        <div className="grid gap-2 sm:gap-4 lg:gap-8 w-full grid-cols-2 sm:grid-cols-4 px-2">
           {semesters.map(sem => (
             <button
               key={sem}
@@ -34,7 +34,7 @@ export default function StepSemester({
                 }
                 nextStep();
               }}
-              className="w-full aspect-square border-4 border-brutal-black bg-brutal-white font-display font-black text-6xl lg:text-7xl hover:bg-brutal-red hover:text-white hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal transition-all flex items-center justify-center text-brutal-black"
+              className="w-full py-4 sm:aspect-square min-h-[80px] border-4 border-brutal-black bg-brutal-white font-display font-black text-3xl sm:text-6xl lg:text-7xl hover:bg-brutal-red hover:text-white hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal transition-all flex items-center justify-center text-brutal-black"
             >
               {sem}
             </button>

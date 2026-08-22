@@ -12,6 +12,7 @@ import HomePage     from './pages/HomePage';
 import AuthPage     from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import ProfilePage  from './pages/ProfilePage';
+import BlogListPage from './pages/BlogListPage';
 import BlogPage     from './pages/BlogPage';
 import CalculatorPage from './pages/CalculatorPage';
 
@@ -32,6 +33,7 @@ export default function App() {
             {/* Public routes */}
             <Route path="/"           element={<HomePage />} />
             <Route path="/auth"       element={<AuthPage />} />
+            <Route path="/blog"       element={<BlogListPage />} />
             <Route path="/blog/:slug" element={<BlogPage />} />
 
             {/* Protected routes */}

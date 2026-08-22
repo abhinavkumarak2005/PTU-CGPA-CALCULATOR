@@ -35,10 +35,10 @@ export default function StepDept({
     >
       <div className="w-full max-w-5xl flex flex-col items-center justify-center min-h-min py-8">
         <div className="inline-block bg-brutal-black text-brutal-yellow font-bold uppercase tracking-widest px-4 py-2 border-4 border-brutal-black mb-6">Step {batchData?.id === 'MTECH' ? '3a/3b' : '4'}</div>
-        <h2 className="font-display font-black text-4xl lg:text-6xl text-brutal-black mb-12 text-center uppercase tracking-tighter shrink-0">
+        <h2 className="font-display font-black text-2xl sm:text-3xl lg:text-6xl text-brutal-black mb-6 lg:mb-12 text-center uppercase tracking-tighter shrink-0 w-full px-2">
           {isMtechParentSelect ? 'Parent Dept' : 'Specialization'}
         </h2>
-        <div className={`grid gap-4 lg:gap-6 w-full ${depts.length <= 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+        <div className={`grid gap-4 lg:gap-6 w-full px-2 lg:px-0 ${depts.length <= 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
           {depts.map((d) => (
             <button
               key={d.id}
@@ -51,9 +51,9 @@ export default function StepDept({
                   isPG() ? nextStep(2) : nextStep();
                 }
               }}
-              className="brutal-card group flex items-center gap-4 p-4 lg:p-6 min-h-[120px]"
+              className="brutal-card group flex items-center gap-4 p-4 lg:p-6 min-h-[100px] lg:min-h-[120px] w-full"
             >
-              <div className="w-16 h-16 bg-brutal-yellow border-4 border-brutal-black flex items-center justify-center text-brutal-black group-hover:scale-110 transition-transform shadow-brutal-sm shrink-0">
+              <div className="w-14 h-14 lg:w-16 lg:h-16 bg-brutal-yellow border-4 border-brutal-black flex items-center justify-center text-brutal-black group-hover:scale-110 transition-transform shadow-brutal-sm shrink-0">
                 {getDeptIcon(d.id)}
               </div>
               <span className="font-bold font-display uppercase tracking-tight text-lg text-brutal-black leading-tight text-left">

@@ -35,7 +35,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-brutal-white flex flex-col items-center justify-center p-4 relative overflow-hidden z-0 font-sans selection:bg-brutal-yellow selection:text-brutal-black">
+    <div className="min-h-[100dvh] bg-brutal-white flex flex-col items-center justify-center p-4 relative overflow-hidden z-0 font-sans selection:bg-brutal-yellow selection:text-brutal-black">
       
       {/* Background Grid Pattern purely via CSS */}
       <div 
@@ -54,7 +54,7 @@ export default function AuthPage() {
           <ArrowLeft size={20} strokeWidth={3} /> Back to Home
         </Link>
 
-        <div className="bg-white border-8 border-brutal-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative">
+        <div className="bg-white border-4 md:border-8 border-brutal-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative">
           
           {/* Tape decorations */}
           <div className="absolute -top-4 -left-4 w-16 h-8 bg-brutal-blue rotate-[-15deg] border-2 border-brutal-black z-20 hidden sm:block" />

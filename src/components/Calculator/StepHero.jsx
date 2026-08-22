@@ -12,11 +12,11 @@ export default function StepHero({ slideVariants, direction, nextStep }) {
       {/* Brutalist Hero Section */}
       <div className="w-full min-h-[400px] flex-1 bg-brutal-blue border-b-4 border-brutal-black p-8 lg:p-12 text-white text-center relative flex flex-col justify-center items-center">
         <div className="relative z-10 w-full max-w-4xl py-6 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 py-2 px-5 bg-brutal-black text-brutal-yellow border-2 border-brutal-black font-bold tracking-widest uppercase mb-8 shadow-brutal">
-            <CheckCircle2 size={16} strokeWidth={3} /> Updated for 2024-25
+          <div className="inline-flex items-center gap-2 py-2 px-5 bg-brutal-black text-brutal-yellow border-2 border-brutal-black font-bold tracking-widest uppercase mb-8 shadow-brutal text-xs sm:text-sm text-center">
+            <CheckCircle2 size={16} strokeWidth={3} className="shrink-0" /> UPDATED FOR 2026-30 BATCH
           </div>
-          <h1 className="font-display font-black text-5xl lg:text-7xl mb-8 leading-none tracking-tighter uppercase">
-            Calculate Your <br /><span className="bg-brutal-yellow text-brutal-black px-4 inline-block mt-2 border-4 border-brutal-black shadow-brutal">CGPA</span> Instantly
+          <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-7xl mb-6 lg:mb-8 leading-tight sm:leading-none tracking-tighter uppercase px-2 w-full text-center">
+            Calculate Your <br className="hidden sm:block" /><span className="bg-brutal-yellow text-brutal-black px-2 sm:px-4 inline-block mt-2 border-4 border-brutal-black shadow-brutal whitespace-nowrap">CGPA</span> Instantly
           </h1>
           <button
             id="hero-calculate-btn"

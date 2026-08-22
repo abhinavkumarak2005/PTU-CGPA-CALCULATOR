@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function HeroSection() {
   return (
@@ -13,7 +14,7 @@ export default function HeroSection() {
         }}
       />
       
-      <div className="max-w-7xl mx-auto w-full flex flex-col-reverse xl:flex-row items-center justify-between gap-12 xl:gap-8 z-10 relative">
+      <div className="max-w-7xl mx-auto w-full flex flex-col xl:flex-row items-center justify-between gap-12 xl:gap-8 z-10 relative">
         
         {/* Left Side: Typography */}
         <div className="w-full xl:w-1/2 flex flex-col gap-6 z-20">
@@ -21,7 +22,7 @@ export default function HeroSection() {
             <div className="inline-block px-4 py-1 bg-brutal-black text-brutal-yellow font-bold uppercase tracking-[0.2em] text-xs border-2 border-brutal-black w-max mb-6">
               CGPA Calculator
             </div>
-            <h1 className="font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[85px] leading-[0.9] tracking-tighter uppercase mb-6 relative z-30 pointer-events-none">
+            <h1 className="font-display font-black text-[40px] sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[85px] leading-[0.9] tracking-tighter uppercase mb-6 relative z-30 pointer-events-none">
               We <br/> Calculate <br/>
               <span className="bg-brutal-red text-white px-2 mt-2 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">Bold</span> <br/> Grades.
             </h1>
@@ -31,16 +32,16 @@ export default function HeroSection() {
           </div>
           
           <div className="flex items-center gap-4 mt-4 relative z-40">
-            <a href="#calculator" className="w-full sm:w-max bg-brutal-yellow text-brutal-black border-4 border-brutal-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] px-8 py-4 font-display font-black text-xl uppercase tracking-widest hover:-translate-y-1 hover:translate-x-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
+            <Link to="/calculator" className="w-full sm:w-max bg-brutal-yellow text-brutal-black border-4 border-brutal-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] px-8 py-4 font-display font-black text-xl uppercase tracking-widest hover:-translate-y-1 hover:translate-x-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-3">
               Calculate Now &rarr;
-            </a>
+            </Link>
           </div>
         </div>
 
         {/* Right Side: Sample Grade Card */}
         <div className="w-full xl:w-1/2 flex items-center justify-center xl:justify-end relative h-auto md:h-[500px] z-30 hover:z-10 mt-12 xl:mt-0 px-4 xl:translate-x-8 group transition-all duration-300">
           
-          <div className="relative w-full max-w-lg bg-white border-4 border-brutal-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 rotate-3 group-hover:rotate-0 group-hover:blur-[2px] transition-all duration-300">
+          <div className="relative w-full max-w-lg bg-white border-4 border-brutal-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 rotate-3 group-hover:rotate-0 sm:group-hover:blur-[2px] transition-all duration-300">
             {/* Tape decorations */}
             <div className="absolute -top-4 -left-4 w-16 h-8 bg-brutal-blue rotate-[-15deg] border-2 border-brutal-black z-10" />
             <div className="absolute -bottom-4 -right-4 w-16 h-8 bg-brutal-yellow rotate-[-15deg] border-2 border-brutal-black z-10" />

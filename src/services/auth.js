@@ -6,6 +6,16 @@ export const auth = {
       console.warn('Supabase not configured. Simulating signup.');
       return { data: { user: { email } }, error: null };
     }
+
+    // Custom check for existing email to bypass the forced enumeration protection
+    const { data: emailExists, error: checkError } = await supabase.rpc('check_email_exists', { 
+      email_address: email 
+    });
+
+    if (emailExists) {
+      return { data: null, error: new Error('An account with this email address already exists. Please log in instead.') };
+    }
+
     const result = await supabase.auth.signUp({
       email,
       password,
@@ -39,10 +49,41 @@ export const auth = {
       console.warn('Supabase not configured. Simulating OTP verify.');
       return { data: { session: true }, error: null };
     }
-    return supabase.auth.verifyOtp({
+    const result = await supabase.auth.verifyOtp({
       email,
       token,
-      type: 'email'
+      type: 'signup'
+    });
+
+    // When Confirm Email is ON, the user doesn't have a session during signUp,
+    // so the profile isn't created then. We create it here using the metadata we saved.
+    if (result.data?.session && !result.error) {
+      const metadata = result.data.user?.user_metadata || {};
+      const { error: profileError } = await supabase.from('profiles').upsert({
+        id: result.data.user.id,
+        name: metadata.name || 'Student',
+        register_no: metadata.register_no || 'UNKNOWN',
+        college: metadata.college || 'PTU',
+        batch: metadata.batch || '2024'
+      });
+      
+      if (profileError) {
+        console.error("Profile creation error:", profileError);
+        // We still return success for OTP, but log the error
+      }
+    }
+
+    return result;
+  },
+
+  async resendOTP(email) {
+    if (!isSupabaseConfigured) {
+      console.warn('Supabase not configured. Simulating OTP resend.');
+      return { data: {}, error: null };
+    }
+    return supabase.auth.resend({
+      type: 'signup',
+      email
     });
   },
 

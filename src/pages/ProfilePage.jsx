@@ -17,7 +17,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="min-h-[100dvh] bg-[#F8FAFC]">
         <Navbar />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
@@ -28,7 +28,7 @@ export default function ProfilePage() {
 
   if (user && !profile) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="min-h-[100dvh] bg-[#F8FAFC]">
         <Navbar />
         <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Profile Missing</h2>
@@ -43,7 +43,7 @@ export default function ProfilePage() {
   if (!user || !profile) return null;
 
   return (
-    <div className="min-h-screen bg-brutal-white text-brutal-black font-sans selection:bg-brutal-yellow relative z-0">
+    <div className="min-h-[100dvh] bg-brutal-white text-brutal-black font-sans selection:bg-brutal-yellow relative z-0">
       <Navbar />
       <SupportModal />
       

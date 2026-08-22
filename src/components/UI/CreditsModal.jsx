@@ -42,11 +42,13 @@ export default function CreditsModal({ isOpen, onClose }) {
 
                 {/* Abhinav */}
                 <div className="group bg-white border-4 border-brutal-black shadow-brutal-sm p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:-translate-y-1 hover:shadow-brutal transition-all gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-brutal-blue border-2 border-brutal-black flex items-center justify-center text-white font-black text-lg">AI</div>
-                    <div>
-                      <h4 className="font-display font-black text-xl uppercase tracking-widest">I ABHINAVKUMAR</h4>
-                      <p className="font-bold text-sm text-slate-500 uppercase">Lead Developer</p>
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className="w-12 h-12 bg-brutal-blue border-2 border-brutal-black flex items-center justify-center text-white font-black text-lg shrink-0">AI</div>
+                    <div className="min-w-0 flex-1 overflow-hidden py-1">
+                      <h4 className="font-display font-black text-sm sm:text-xl uppercase tracking-widest truncate w-full scale-y-125 origin-left pr-2">
+                        <span className="hidden sm:inline">I </span>ABHINAVKUMAR
+                      </h4>
+                      <p className="font-bold text-xs sm:text-sm text-slate-500 uppercase truncate">Lead Developer</p>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -61,11 +63,11 @@ export default function CreditsModal({ isOpen, onClose }) {
 
                 {/* Viknesh */}
                 <div className="group bg-white border-4 border-brutal-black shadow-brutal-sm p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:-translate-y-1 hover:shadow-brutal transition-all gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-brutal-red border-2 border-brutal-black flex items-center justify-center text-white font-black text-lg">VR</div>
-                    <div>
-                      <h4 className="font-display font-black text-xl uppercase tracking-widest">VIKNESH RS</h4>
-                      <p className="font-bold text-sm text-slate-500 uppercase">Supporting Developer</p>
+                  <div className="flex items-center gap-4 min-w-0 flex-1">
+                    <div className="w-12 h-12 bg-brutal-red border-2 border-brutal-black flex items-center justify-center text-white font-black text-lg shrink-0">VR</div>
+                    <div className="min-w-0 flex-1 overflow-hidden py-1">
+                      <h4 className="font-display font-black text-sm sm:text-xl uppercase tracking-widest truncate w-full scale-y-125 origin-left pr-2">VIKNESH RS</h4>
+                      <p className="font-bold text-xs sm:text-sm text-slate-500 uppercase truncate">Supporting Developer</p>
                     </div>
                   </div>
                   <div className="flex gap-2">
