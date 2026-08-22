@@ -105,10 +105,27 @@ export const auth = {
       return { data: null, error: new Error("Please log in using your email address.") };
     }
 
-    return supabase.auth.signInWithPassword({
+    const result = await supabase.auth.signInWithPassword({
       email,
       password
     });
+
+    if (result.data?.user) {
+      // Check if their profile was deleted from the database
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', result.data.user.id)
+        .single();
+        
+      if (!profile) {
+        // Sign them out immediately and throw an error for the UI
+        await supabase.auth.signOut();
+        return { data: null, error: new Error("Profile not found! Please sign up again.") };
+      }
+    }
+
+    return result;
   },
 
   async logOut() {
