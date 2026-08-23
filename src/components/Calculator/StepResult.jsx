@@ -68,21 +68,43 @@ export default function StepResult({
     if (!isLoggedIn || !user) return;
     setSaving(true);
     
-    const payload = {
-      college: college?.id || 'PTU',
-      batch: batchData?.id || '2024',
-      regulation: batchData?.regulation || 'R2020',
-      dept: deptData?.id || 'CSE',
-      entryType: 'regular',
-      semester: parseInt(targetSem || currentSemLimit || 1, 10),
-      sgpa: parseFloat(result.score),
-      gradeData: gradeData
-    };
-
-    const { error } = await resultsApi.saveResult(user.id, payload);
-    setSaving(false);
-    if (!error) {
+    if (isCGPA && result.breakdown?.length > 0) {
+      // In Cumulative mode, save each semester individually
+      const promises = result.breakdown.map(semData => {
+        const payload = {
+          college: college?.id || 'PTU',
+          batch: batchData?.id || '2024',
+          regulation: batchData?.regulation || 'R2020',
+          dept: deptData?.id || 'CSE',
+          entryType: 'regular',
+          semester: semData.semester,
+          sgpa: parseFloat(semData.sgpa),
+          gradeData: gradeData
+        };
+        return resultsApi.saveResult(user.id, payload);
+      });
+      
+      await Promise.all(promises);
+      setSaving(false);
       setSaved(true);
+    } else {
+      // In Specific mode, save just the target semester
+      const payload = {
+        college: college?.id || 'PTU',
+        batch: batchData?.id || '2024',
+        regulation: batchData?.regulation || 'R2020',
+        dept: deptData?.id || 'CSE',
+        entryType: 'regular',
+        semester: parseInt(targetSem || currentSemLimit || 1, 10),
+        sgpa: parseFloat(result.score),
+        gradeData: gradeData
+      };
+
+      const { error } = await resultsApi.saveResult(user.id, payload);
+      setSaving(false);
+      if (!error) {
+        setSaved(true);
+      }
     }
   };
 
