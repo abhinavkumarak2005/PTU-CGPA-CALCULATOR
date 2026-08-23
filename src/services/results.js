@@ -25,7 +25,7 @@ export const resultsApi = {
         sgpa: payload.sgpa,
         grade_data: payload.gradeData,
         calculated_at: new Date().toISOString()
-      }, { onConflict: 'user_id, college, dept, batch, semester' })
+      }, { onConflict: 'user_id,college,dept,batch,semester' })
       .select()
       .single();
 

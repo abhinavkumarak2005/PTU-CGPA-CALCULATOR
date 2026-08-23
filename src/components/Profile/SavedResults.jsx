@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { toPng } from 'html-to-image';
-import { Trash2, Calculator, Plus, Loader2, ArrowRight, X, Download } from 'lucide-react';
+import { Trash2, Calculator, Plus, Loader2, ArrowRight, X, Download, Eye, Edit2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { resultsApi } from '../../services/results';
 import { SYLLABUS, GRADING_SYSTEMS } from '../../data';
@@ -12,6 +13,7 @@ export default function SavedResults({ userId }) {
   const [deletingId, setDeletingId] = useState(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [downloadingItem, setDownloadingItem] = useState(null);
+  const [viewingResult, setViewingResult] = useState(null);
   const downloadRef = React.useRef(null);
   
   const navigate = useNavigate();
@@ -61,6 +63,22 @@ export default function SavedResults({ userId }) {
     }, 150);
   };
 
+  const handleEdit = (res) => {
+    // Navigate to calculator and pre-fill data
+    navigate('/calculator', { 
+      state: { 
+        resume: true,
+        college: res.college,
+        batch: res.batch,
+        dept: res.dept,
+        entryType: res.entry_type,
+        startSem: res.semester,
+        targetSemLimit: res.semester,
+        initialGrades: res.grade_data
+      } 
+    });
+  };
+
   const calculateTotalCGPA = () => {
     if (!results || results.length === 0) return 0;
     
@@ -73,8 +91,8 @@ export default function SavedResults({ userId }) {
       
       const deptId = res.dept || 'CSE';
       const sem = res.semester;
-      const subjects = SYLLABUS[res.regulation || 'R2020']?.[deptId]?.[sem] || [];
       const gradeData = res.grade_data || {};
+      const subjects = gradeData._customSyllabus?.[sem] || SYLLABUS[res.regulation || 'R2020']?.[deptId]?.[sem] || [];
       
       subjects.forEach((sub, idx) => {
         const grade = gradeData[`${sem}_${sub.code}_${idx}`];
@@ -176,7 +194,7 @@ export default function SavedResults({ userId }) {
       )}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b-4 border-brutal-black">
-        <h2 className="text-4xl font-display font-black text-brutal-black uppercase tracking-tighter flex items-center gap-4">
+        <h2 className="text-2xl sm:text-4xl font-display font-black text-brutal-black uppercase tracking-tighter flex items-center gap-2 sm:gap-4">
           <Calculator className="text-brutal-blue" size={36} strokeWidth={3} /> 
           Saved Semesters
         </h2>
@@ -203,34 +221,12 @@ export default function SavedResults({ userId }) {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {results.map(res => (
-            <div key={res.id} className="bg-white border-4 border-brutal-black shadow-brutal p-6 flex flex-col hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-16 h-16 bg-brutal-yellow border-l-4 border-b-4 border-brutal-black flex items-center justify-center translate-x-32 group-hover:translate-x-0 transition-transform z-20">
-                <button 
-                  onClick={() => handleDelete(res.id)}
-                  disabled={deletingId === res.id}
-                  className="text-brutal-black hover:text-brutal-red transition-colors"
-                  title="Delete result"
-                >
-                  {deletingId === res.id ? <Loader2 size={24} className="animate-spin" /> : <Trash2 size={24} strokeWidth={3} />}
-                </button>
-              </div>
-
-              <div className="absolute top-0 right-16 w-16 h-16 bg-white border-l-4 border-b-4 border-brutal-black flex items-center justify-center translate-x-32 group-hover:translate-x-0 transition-transform z-10 delay-75">
-                <button 
-                  onClick={() => triggerDownload({ type: 'SGPA', score: Number(res.sgpa).toFixed(2), college: res.college, dept: res.dept, batch: res.batch || '2024', sem: `Sem ${res.semester}` })}
-                  disabled={downloadingItem !== null}
-                  className="text-brutal-black hover:text-brutal-blue transition-colors"
-                  title="Download Image"
-                >
-                  {downloadingItem?.sem === `Sem ${res.semester}` ? <Loader2 size={24} className="animate-spin" /> : <Download size={24} strokeWidth={3} />}
-                </button>
-              </div>
-
-              <div className="flex justify-between items-start mb-6 relative z-0">
+            <div key={res.id} className="bg-white border-4 border-brutal-black shadow-brutal p-4 sm:p-6 flex flex-col hover:-translate-y-1 transition-all relative overflow-hidden">
+              <div className="flex justify-between items-start mb-4 sm:mb-6 relative z-0">
                 <div>
-                  <h3 className="text-3xl font-display font-black text-brutal-black uppercase tracking-tighter mb-1">Sem {res.semester}</h3>
+                  <h3 className="text-2xl sm:text-3xl font-display font-black text-brutal-black uppercase tracking-tighter mb-1">Sem {res.semester}</h3>
                   <p className="text-sm font-bold uppercase tracking-widest text-slate-500 bg-slate-100 border-2 border-brutal-black px-2 py-0.5 inline-block">{res.college} • {res.dept}</p>
                 </div>
               </div>
@@ -242,10 +238,24 @@ export default function SavedResults({ userId }) {
                 <p className="text-sm font-bold uppercase tracking-widest mt-2 border-t-2 border-brutal-black pt-1">SGPA SCORE</p>
               </div>
 
-              <div className="mt-auto flex justify-between items-center pt-4 border-t-4 border-dashed border-brutal-black">
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+              <div className="mt-auto flex flex-col sm:flex-row justify-between items-center pt-4 border-t-4 border-dashed border-brutal-black gap-4">
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 w-full text-center sm:text-left">
                   {new Date(res.calculated_at).toLocaleDateString()}
                 </p>
+                <div className="flex gap-2 w-full sm:w-auto justify-center sm:justify-end">
+                  <button onClick={() => setViewingResult(res)} className="w-10 h-10 border-2 border-brutal-black flex items-center justify-center hover:bg-brutal-yellow transition-colors" title="View Subjects">
+                    <Eye size={18} strokeWidth={3} />
+                  </button>
+                  <button onClick={() => handleEdit(res)} className="w-10 h-10 border-2 border-brutal-black flex items-center justify-center hover:bg-brutal-blue hover:text-white transition-colors" title="Edit Semester">
+                    <Edit2 size={18} strokeWidth={3} />
+                  </button>
+                  <button onClick={() => triggerDownload({ type: 'SGPA', score: Number(res.sgpa).toFixed(2), college: res.college, dept: res.dept, batch: res.batch || '2024', sem: `Sem ${res.semester}` })} disabled={downloadingItem !== null} className="w-10 h-10 border-2 border-brutal-black flex items-center justify-center hover:bg-[#FFD500] transition-colors" title="Download Image">
+                    {downloadingItem?.sem === `Sem ${res.semester}` ? <Loader2 size={18} className="animate-spin" /> : <Download size={18} strokeWidth={3} />}
+                  </button>
+                  <button onClick={() => handleDelete(res.id)} disabled={deletingId === res.id} className="w-10 h-10 border-2 border-brutal-black flex items-center justify-center hover:bg-brutal-red hover:text-white transition-colors" title="Delete Result">
+                    {deletingId === res.id ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} strokeWidth={3} />}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -301,6 +311,81 @@ export default function SavedResults({ userId }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* View Subjects Modal */}
+      {createPortal(
+        <AnimatePresence>
+          {viewingResult && (
+            <div className="fixed inset-0 bg-brutal-black/80 z-[9999] flex items-center justify-center p-4 backdrop-blur-sm">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="bg-brutal-white w-full max-w-2xl border-4 border-brutal-black shadow-brutal flex flex-col max-h-[90vh]"
+              >
+                <div className="p-4 sm:p-6 border-b-4 border-brutal-black bg-brutal-yellow flex justify-between items-center sticky top-0 z-10 shrink-0">
+                  <div>
+                    <h3 className="font-display font-black text-xl sm:text-2xl uppercase tracking-tighter">Sem {viewingResult.semester} Subjects</h3>
+                    <p className="font-bold text-xs uppercase tracking-widest mt-1">SGPA: {Number(viewingResult.sgpa).toFixed(2)}</p>
+                  </div>
+                  <button onClick={() => setViewingResult(null)} className="w-10 h-10 bg-white border-2 border-brutal-black flex items-center justify-center hover:bg-brutal-red hover:text-white transition-colors">
+                    <X size={24} strokeWidth={3} />
+                  </button>
+                </div>
+                
+                <div className="p-4 sm:p-6 overflow-y-auto custom-scrollbar flex-1 bg-slate-50">
+                  <div className="space-y-3">
+                    {(() => {
+                      const gradeData = viewingResult.grade_data || {};
+                      const subjects = gradeData._customSyllabus?.[viewingResult.semester] || SYLLABUS[viewingResult.regulation || 'R2020']?.[viewingResult.dept || 'CSE']?.[viewingResult.semester] || [];
+                      const system = GRADING_SYSTEMS[viewingResult.regulation || 'R2020'];
+                      
+                      const list = subjects.map((sub, idx) => {
+                        const grade = gradeData[`${viewingResult.semester}_${sub.code}_${idx}`];
+                        if (!grade) return null;
+                        return (
+                          <div key={idx} className="flex flex-row items-center justify-between p-3 sm:p-4 bg-white border-4 border-brutal-black shadow-brutal-sm gap-2 sm:gap-4">
+                            <div className="flex-1 min-w-0 pr-2">
+                              <p className="font-bold uppercase tracking-tight text-brutal-black text-xs sm:text-base leading-tight break-words">{sub.name}</p>
+                              <p className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">{sub.code} • {sub.credits} CR</p>
+                            </div>
+                            <div className="w-12 sm:w-16 shrink-0 bg-brutal-black text-white py-1.5 sm:py-2 text-center font-black text-lg sm:text-xl border-2 border-brutal-black">
+                              {grade}
+                            </div>
+                          </div>
+                        );
+                      }).filter(Boolean);
+                      
+                      if (list.length === 0) {
+                        return (
+                          <div className="p-8 text-center border-4 border-dashed border-slate-300">
+                            <p className="font-bold text-slate-500 uppercase tracking-widest">No subjects found.</p>
+                          </div>
+                        );
+                      }
+                      return list;
+                    })()}
+                  </div>
+                </div>
+                <div className="p-4 sm:p-6 border-t-4 border-brutal-black bg-white shrink-0">
+                  <button 
+                    onClick={() => {
+                      const res = viewingResult;
+                      setViewingResult(null);
+                      handleEdit(res);
+                    }}
+                    className="w-full bg-brutal-blue text-white border-4 border-brutal-black px-4 sm:px-6 py-4 font-bold uppercase tracking-widest hover:-translate-y-1 hover:shadow-brutal transition-all flex items-center justify-center gap-2"
+                  >
+                    <Edit2 size={20} strokeWidth={3} />
+                    Edit This Semester
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* HIDDEN RESULT CARD FOR DOWNLOADING */}
       <div style={{ position: 'fixed', left: '-9999px', top: '-9999px' }}>

@@ -73,6 +73,9 @@ export function useCalculator() {
       setEntryType(resumeState.entryType);
       setMode('cumulative');
       setGradeData(resumeState.initialGrades || {});
+      if (resumeState.initialGrades?._customSyllabus) {
+        setCustomSyllabus(resumeState.initialGrades._customSyllabus);
+      }
       setCurrentSemLimit(resumeState.targetSemLimit);
       setActiveSemInput(resumeState.startSem);
       setStep(8);
@@ -176,7 +179,7 @@ export function useCalculator() {
     const currentList = getSubjects(activeSemInput);
     const newSub = {
       name:    newSubject.name,
-      code:    `CUS-${Date.now().toString().slice(-4)}`,
+      code:    newSubject.code || `CUS-${Date.now().toString().slice(-4)}`,
       credits: parseFloat(newSubject.credits),
     };
     setCustomSyllabus({ ...customSyllabus, [activeSemInput]: [...currentList, newSub] });

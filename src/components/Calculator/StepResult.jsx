@@ -17,7 +17,8 @@ export default function StepResult({
   mode,
   targetSem,
   currentSemLimit,
-  gradeData
+  gradeData,
+  customSyllabus
 }) {
   const resultRef = useRef(null);
   const [downloading, setDownloading] = useState(false);
@@ -68,6 +69,8 @@ export default function StepResult({
     if (!isLoggedIn || !user) return;
     setSaving(true);
     
+    const enrichedGradeData = { ...gradeData, _customSyllabus: customSyllabus };
+
     if (isCGPA && result.breakdown?.length > 0) {
       // In Cumulative mode, save each semester individually
       const promises = result.breakdown.map(semData => {
@@ -79,14 +82,21 @@ export default function StepResult({
           entryType: 'regular',
           semester: semData.semester,
           sgpa: parseFloat(semData.sgpa),
-          gradeData: gradeData
+          gradeData: enrichedGradeData
         };
         return resultsApi.saveResult(user.id, payload);
       });
       
-      await Promise.all(promises);
+      const results = await Promise.all(promises);
+      const hasError = results.some(res => res.error);
+      
       setSaving(false);
-      setSaved(true);
+      if (hasError) {
+        console.error("Failed to save some semesters:", results.filter(r => r.error));
+        alert("There was an error saving your results. Please try again.");
+      } else {
+        setSaved(true);
+      }
     } else {
       // In Specific mode, save just the target semester
       const payload = {
@@ -97,7 +107,7 @@ export default function StepResult({
         entryType: 'regular',
         semester: parseInt(targetSem || currentSemLimit || 1, 10),
         sgpa: parseFloat(result.score),
-        gradeData: gradeData
+        gradeData: enrichedGradeData
       };
 
       const { error } = await resultsApi.saveResult(user.id, payload);
