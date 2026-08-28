@@ -86,6 +86,10 @@ export default function OTPVerify({ email, onBack }) {
           Please check your email. We've sent a 6-digit verification code to<br />
           <span className="bg-brutal-yellow border-2 border-brutal-black px-2 inline-block mt-2">{email}</span>
         </p>
+        <div className="mt-4 p-3 bg-[#ffcccc] border-4 border-brutal-black shadow-brutal-sm text-xs font-bold uppercase tracking-wider text-brutal-black inline-block text-left">
+          ⚠️ <span className="text-brutal-red font-black">Check your Spam folder!</span><br/>
+          If it's in Spam, please click "Report as Not Spam" to help us verify your account faster.
+        </div>
       </div>
 
       {error && <div className="bg-brutal-red text-white p-3 font-bold border-4 border-brutal-black shadow-brutal-sm uppercase tracking-widest text-sm text-center">{error}</div>}

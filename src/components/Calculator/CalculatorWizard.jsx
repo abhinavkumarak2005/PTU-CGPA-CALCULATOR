@@ -42,7 +42,7 @@ export default function CalculatorWizard() {
       </div>
 
       {/* MAIN WIZARD CARD (The Double-Bezel Architecture) */}
-      <div className="brutal-card flex-1 relative overflow-hidden flex flex-col h-full mb-8 bg-brutal-yellow">
+      <div className="brutal-card flex-1 relative overflow-hidden flex flex-col h-full min-h-[550px] sm:min-h-[650px] mb-8 bg-brutal-yellow">
         <div className="absolute inset-0 bg-brutal-white m-2 sm:m-4 border-4 border-brutal-black flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar">
           <AnimatePresence mode="wait" custom={calc.direction}>
             {calc.step === 0 && <StepHero key="step0" {...calc} />}

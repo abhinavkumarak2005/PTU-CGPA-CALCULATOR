@@ -135,9 +135,13 @@ export default function ForgotPasswordForm({ onBack }) {
 
       {step === 'verify_otp' && (
         <form onSubmit={handleVerifyOTP} className="space-y-6">
-          <div className="space-y-2">
+          <div className="space-y-2 text-center sm:text-left">
             <h3 className="font-display font-black text-3xl uppercase tracking-widest text-brutal-black">Verify OTP</h3>
             <p className="font-bold text-sm text-brutal-black uppercase tracking-wider">Enter the 6-digit code sent to <span className="bg-brutal-yellow px-1 border-2 border-brutal-black inline-block">{email}</span></p>
+            <div className="mt-4 p-3 bg-[#ffcccc] border-4 border-brutal-black shadow-brutal-sm text-xs font-bold uppercase tracking-wider text-brutal-black inline-block text-left">
+              ⚠️ <span className="text-brutal-red font-black">Check your Spam folder!</span><br/>
+              If it's in Spam, please click "Report as Not Spam" to help us verify your account faster.
+            </div>
           </div>
           
           <div className="flex justify-between gap-2">

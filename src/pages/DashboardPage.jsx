@@ -41,7 +41,7 @@ export default function DashboardPage() {
           
           {/* Row 1: Full width Welcome message */}
           <div className="relative z-10 w-full text-center md:text-left min-w-0">
-            <h1 className="font-display font-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-tighter" title={`Welcome back, ${profile.name}!`}>
+            <h1 className="font-display font-black text-3xl sm:text-4xl lg:text-5xl uppercase tracking-tighter" title={`Welcome back, ${profile.name}!`}>
               <span className="sm:hidden">Welcome Back!</span>
               <span className="hidden sm:inline">Welcome back, {profile.name}!</span>
             </h1>
@@ -49,7 +49,7 @@ export default function DashboardPage() {
           
           {/* Row 2: Subtext on left, Button on right */}
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 w-full text-center md:text-left">
-            <p className="text-xl md:text-2xl font-bold font-sans flex-1">
+            <p className="text-lg md:text-xl font-bold font-sans flex-1">
               Track your academic progress and calculate new <span className="text-brutal-red uppercase font-black tracking-widest bg-white border-2 border-brutal-black px-2 py-0.5 inline-block -skew-x-6 relative z-10">semesters</span> instantly.
             </p>
             
