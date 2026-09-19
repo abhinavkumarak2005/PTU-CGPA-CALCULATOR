@@ -8,13 +8,22 @@ export const auth = {
     }
 
     // Custom check for existing email to bypass the forced enumeration protection
-    const { data: emailExists, error: checkError } = await supabase.rpc('check_email_exists', { 
-      email_address: email 
-    });
+    // const { data: emailExists } = await supabase.rpc('check_email_exists', { 
+    //   email_address: email 
+    // });
 
-    if (emailExists) {
-      return { data: null, error: new Error('An account with this email address already exists. Please log in instead.') };
-    }
+    // if (emailExists) {
+    //   // The user exists in auth.users. They might be verified or unverified.
+    //   // Let's attempt to resend the OTP. If they are unverified, they will receive it!
+    //   const resendResult = await supabase.auth.resend({ type: 'signup', email });
+    //   
+    //   if (!resendResult.error) {
+    //     // Transition to the OTP screen so they can enter the new OTP.
+    //     return { data: { user: { email } }, error: null };
+    //   }
+    //   
+    //   return { data: null, error: new Error('An account with this email address already exists. Please log in instead.') };
+    // }
 
     const result = await supabase.auth.signUp({
       email,
@@ -111,7 +120,7 @@ export const auth = {
     });
 
     if (result.data?.user) {
-      // Check if their profile was deleted from the database
+      // Check if their profile exists in the database
       const { data: profile } = await supabase
         .from('profiles')
         .select('*')
@@ -119,9 +128,21 @@ export const auth = {
         .single();
         
       if (!profile) {
-        // Sign them out immediately and throw an error for the UI
-        await supabase.auth.signOut();
-        return { data: null, error: new Error("Profile not found! Please sign up again.") };
+        // The user verified their email via a magic link (bypassing verifyOTP)
+        // or their profile was deleted. Let's create it now using their metadata!
+        const metadata = result.data.user.user_metadata || {};
+        const { error: profileError } = await supabase.from('profiles').upsert({
+          id: result.data.user.id,
+          name: metadata.name || 'Student',
+          register_no: metadata.register_no || '',
+          college: metadata.college || 'PTU',
+          batch: metadata.batch || ''
+        });
+
+        if (profileError) {
+          await supabase.auth.signOut();
+          return { data: null, error: new Error("Failed to recover profile. Please contact support.") };
+        }
       }
     }
 
