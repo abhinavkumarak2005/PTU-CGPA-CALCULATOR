@@ -129,6 +129,10 @@ export default function SavedResults({ userId }) {
   const suggestedStart = firstMissing ? firstMissing : maxSavedSem + 1;
   const [targetSem, setTargetSem] = useState(suggestedStart);
 
+  useEffect(() => {
+    setTargetSem(suggestedStart);
+  }, [suggestedStart]);
+
   const handleResumeCalculation = () => {
     // We base the config off the latest saved result or the one just before the missing one
     let configRes = results.find(r => r.semester === maxSavedSem);

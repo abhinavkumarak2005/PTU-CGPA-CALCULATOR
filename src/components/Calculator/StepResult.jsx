@@ -14,6 +14,7 @@ export default function StepResult({
   level,
   batchData,
   deptData,
+  entryType,
   mode,
   targetSem,
   currentSemLimit,
@@ -79,7 +80,7 @@ export default function StepResult({
           batch: batchData?.id || '2024',
           regulation: batchData?.regulation || 'R2020',
           dept: deptData?.id || 'CSE',
-          entryType: 'regular',
+          entryType: entryType || 'regular',
           semester: semData.semester,
           sgpa: parseFloat(semData.sgpa),
           gradeData: enrichedGradeData
@@ -104,7 +105,7 @@ export default function StepResult({
         batch: batchData?.id || '2024',
         regulation: batchData?.regulation || 'R2020',
         dept: deptData?.id || 'CSE',
-        entryType: 'regular',
+        entryType: entryType || 'regular',
         semester: parseInt(targetSem || currentSemLimit || 1, 10),
         sgpa: parseFloat(result.score),
         gradeData: enrichedGradeData
