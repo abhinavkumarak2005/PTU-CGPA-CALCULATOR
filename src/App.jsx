@@ -15,6 +15,7 @@ import ProfilePage  from './pages/ProfilePage';
 import BlogListPage from './pages/BlogListPage';
 import BlogPage     from './pages/BlogPage';
 import CalculatorPage from './pages/CalculatorPage';
+import DomainMigrationModal from './components/UI/DomainMigrationModal';
 
 // Protected route — redirects to /auth if not logged in
 function ProtectedRoute({ children }) {
@@ -29,6 +30,7 @@ export default function App() {
     <HelmetProvider>
       <AuthProvider>
         <BrowserRouter>
+          <DomainMigrationModal />
           <Routes>
             {/* Public routes */}
             <Route path="/"           element={<HomePage />} />

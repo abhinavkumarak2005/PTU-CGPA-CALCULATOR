@@ -8,11 +8,11 @@ export default function SupportModal() {
     // Check if the user has already seen the modal this session to avoid annoying them
     const hasSeenModal = sessionStorage.getItem('hasSeenSupportModal');
     if (!hasSeenModal) {
-      // Show modal after 2 seconds
+      // Delay showing support modal to avoid overlapping with domain migration notice
       const timer = setTimeout(() => {
         setIsOpen(true);
         sessionStorage.setItem('hasSeenSupportModal', 'true');
-      }, 2000);
+      }, 8000);
       return () => clearTimeout(timer);
     }
   }, []);
